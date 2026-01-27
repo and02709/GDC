@@ -14,6 +14,7 @@ high-performance clusters like the UMN MSI Agate cluster.
    :caption: Contents:
 
    installation
+   genomics
    usage
    api
    contributing
