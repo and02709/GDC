@@ -13,7 +13,7 @@ Standard Procedure
 
 Module 1: Crossmap (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Converts the genome build to GRCh38 (default: GRCh37 to GRCh38).
+CrossMap converts genome coordinates and annotation files between different reference assemblies. It supports a wide array of used file formats, including BAM, CRAM, SAM, VCF, Wiggle, BigWig, BED, GFF, and GTF. For the purposes of our pipeline we will make use of PLINK Binary format and convert the genome build to GRCh38 (default: GRCh37 to GRCh38). 
 
 * **Flag:** ``--use_crossmap`` (Default: ``1``).
 * **Override:** Set to ``0`` if the build is already GRCh38.
