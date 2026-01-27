@@ -20,7 +20,10 @@ CrossMap converts genome coordinates and annotation files between different refe
 
 Module 2: GenotypeHarmonizer (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Aligns samples to the GRCh38 reference genome using ``ALL.hgdp1kg.filtered.SNV_INDEL.38.phased.shapeit5.vcf``.
+GenotypeHarmonizer integrates genetic data by resolving inconsistencies in genomic strand and file format.  It will align study datasets to a specified reference genome and uses linkage disequalibrium (LD) to solve unknown or ambiguous strand issues and SNPs.  We use it in our pipeline to align sample data to the GRCh38 reference genome using the reference file ``ALL.hgdp1kg.filtered.SNV_INDEL.38.phased.shapeit5.vcf``.
+
+* **Flag:** ``--use_genome_harmonizer`` (Default: ``1``).
+* **Override:** Set to ``0`` if the build is already harmonized.
 
 Module 3: Initial QC
 ~~~~~~~~~~~~~~~~~~~~
