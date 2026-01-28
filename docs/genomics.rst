@@ -27,7 +27,7 @@ GenotypeHarmonizer integrates genetic data by resolving inconsistencies in genom
 
 Module 3: Initial QC
 ~~~~~~~~~~~~~~~~~~~~
-Performs Quality Control prior to relatedness checks.
+Performs Quality Control prior to relatedness checks.  
 
 * Exclude SNPs and individuals with >10% missingness (**Plink**).
 * Exclude SNPs and individuals with >2% missingness (**Plink**).
