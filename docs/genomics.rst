@@ -33,7 +33,7 @@ Performs Quality Control prior to relatedness checks.
 * Exclude SNPs and individuals with >2% missingness (**Plink**).
 
 Module 4: Relatedness
-=====================
+~~~~~~~~~~~~~~~~~~~~
 
 This module uses **KING** to separate related and unrelated study samples. The module also performs **PC-AiR** and **PC-Relate** for kinship estimation.
 
