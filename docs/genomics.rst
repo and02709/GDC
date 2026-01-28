@@ -12,7 +12,24 @@ Standard Procedure
 
 Module 1: Crossmap (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-...
+CrossMap converts genome coordinates and annotation files between different reference assemblies. It supports a wide array of used file formats, including BAM, CRAM, SAM, VCF, Wiggle, BigWig, BED, GFF, and GTF. For the purposes of our pipeline we will make use of PLINK Binary format and convert the genome build to GRCh38 (default: GRCh37 to GRCh38). 
+
+* **Flag:** ``--use_crossmap`` (Default: ``1``).
+* **Override:** Set to ``0`` if the build is already GRCh38.
+
+Module 2: GenotypeHarmonizer (optional)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+GenotypeHarmonizer integrates genetic data by resolving inconsistencies in genomic strand and file format. It will align study datasets to a specified reference genome and uses linkage disequilibrium (LD) to solve unknown or ambiguous strand issues and SNPs. We use it in our pipeline to align sample data to the GRCh38 reference genome using the reference file ``ALL.hgdp1kg.filtered.SNV_INDEL.38.phased.shapeit5.vcf``.
+
+* **Flag:** ``--use_genome_harmonizer`` (Default: ``1``).
+* **Override:** Set to ``0`` if the build is already harmonized.
+
+Module 3: Initial QC
+~~~~~~~~~~~~~~~~~~~~
+Performs Quality Control prior to relatedness checks.  
+
+* Exclude SNPs and individuals with >10% missingness (**Plink**).
+* Exclude SNPs and individuals with >2% missingness (**Plink**).
 
 Module 4: Relatedness
 ~~~~~~~~~~~~~~~~~~~~~
@@ -25,6 +42,7 @@ The fundamental equation KING uses to estimate the kinship coefficient :math:`\p
 .. math::
 
    \phi_{ij} = \frac{N_{Aa,Aa} - 2N_{AA,aa}}{N_{Aa,i} + N_{Aa,j}}
+
 
 
 Module 5: Standard QC
@@ -46,7 +64,6 @@ Infers ancestry using phased files and ``hg38_phased.vcf.gz``. Global ancestry r
 
 Technical Implementation
 ------------------------
-
 
 Module 1: Crossmap
 ~~~~~~~~~~~~~~~~~~
