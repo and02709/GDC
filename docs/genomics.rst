@@ -67,6 +67,38 @@ Based on the calculated :math:`\phi`, relationships are categorized as follows:
      - No close detectable relation
 
 
+PC-AiR is used to perform Principal Component Analysis (PCA) for population structure detection while accounting for known or cryptic relatedness. It identifies a subset of unrelated individuals that represent the ancestral diversity of the sample to compute the principal components (PCs).
+
+The method utilizes the kinship coefficients (:math:`\phi`) calculated by **KING** to define a "partition" of the data.
+
+PC-Relate uses the principal components from PC-AiR to estimate kinship coefficients and IBS (Identity By State) sharing probabilities while adjusting for population stratification. 
+
+The primary metric produced is the **PC-Relate Kinship Coefficient** (:math:`\phi_{ij}^{PCR}`), which is estimated using a ratio of genetic covariance adjusted for local ancestry:
+
+.. math::
+
+   \phi_{ij}^{PCR} = \frac{\text{Cov}(G_i, G_j)}{2 \sqrt{\text{Var}(G_i) \text{Var}(G_j)}}
+
+
+
+.. list-table:: Relatedness Method Comparison
+   :widths: 20 40 40
+   :header-rows: 1
+
+   * - Method
+     - Primary Strength
+     - Usage in Pipeline
+   * - **KING**
+     - Robust to population structure without needing PCs.
+     - Initial relatedness screening and PC-AiR partitioning.
+   * - **PC-AiR**
+     - Captures ancestry without bias from family clusters.
+     - Generating ancestry PCs for regression models.
+   * - **PC-Relate**
+     - High accuracy in admixed populations.
+     - Final kinship estimation and relatedness filtering.
+
+
 Module 5: Standard QC
 ~~~~~~~~~~~~~~~~~~~~~
 Standard GWAS quality control measures on unrelated individuals.
@@ -107,6 +139,16 @@ Module 3: Initial QC
 
    $ plink --bfile file_stem --geno 0.02 --make-bed QC1
    $ plink --bfile QC1 --mind 0.02 --make-bed --out QC2
+
+Module 4: KING and PC-AiR
+~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: console
+
+   # Run KING to get kinship estimates
+   $ king -b study.bed --kinship --prefix king_results
+
+   # Example R code snippet for PC-AiR/PC-Relate via GENESIS
+   $ Rscript run_genesis.R --king king_results.kin0 --vcf study.vcf.gz
 
 Module 5: Standard QC (Sex Check)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
