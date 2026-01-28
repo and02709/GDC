@@ -141,7 +141,7 @@ A common metric for evaluating phasing quality is the **Switch Error Rate**, whi
 
 
 
-Module 7: rfmix
+Module 7: Rfmix
 ~~~~~~~~~~~~~~~
 This module infers local ancestry across the genome using phased genotype files and a reference panel, such as ``hg38_phased.vcf.gz``. **rfmix** uses a discriminative machine learning approach to assign ancestral origins to specific chromosomal segments.
 
@@ -226,7 +226,7 @@ Module 6: Phasing
               --output study_phased_chr${CHR}.vcf.gz \
               --thread 8
 
-Module 7: rfmix Execution
+Module 7: Rfmix Execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: console
 
