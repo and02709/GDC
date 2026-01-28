@@ -33,17 +33,17 @@ Performs Quality Control prior to relatedness checks.
 * Exclude SNPs and individuals with >2% missingness (**Plink**).
 
 Module 4: Relatedness
-~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~
 
 This module uses **KING** to separate related and unrelated study samples. The module also performs **PC-AiR** and **PC-Relate** for kinship estimation.
 
-**KING** is a toolset that makes use of SNP data to identify how closely two individuals are related based on their DNA. This inference is based on the **kinship coefficient** (:math:`\phi`).
-
-The fundamental equation KING uses to estimate the kinship coefficient :math:`\phi` between individuals :math:`i` and :math:`j` is based on the counts of **Heterozygote-Heterozygote (Het-Het)** and **Heterozygote-Homozygote (Het-Hom)** mismatches:
+**KING** is a toolset that makes use of SNP data to identify how closely two individuals are related based on their DNA. This inference is based on the **kinship coefficient** (:math:`\phi`).  The fundamental equation KING uses to estimate the kinship coefficient :math:`\phi` between individuals :math:`i` and :math:`j` is based on the counts of **Heterozygote-Heterozygote (Het-Het)** and **Heterozygote-Homozygote (Het-Hom)** mismatches:
 
 .. math::
 
    \phi_{ij} = \frac{N_{Aa,Aa} - 2N_{AA,aa}}{N_{Aa,i} + N_{Aa,j}}
+
+
 
 Module 5: Standard QC
 ~~~~~~~~~~~~~~~~~~~~~
