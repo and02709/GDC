@@ -143,8 +143,6 @@ A common metric for evaluating phasing quality is the **Switch Error Rate**, whi
 
 Module 7: rfmix
 ~~~~~~~~~~~~~~~
-Infers ancestry using phased files and ``hg38_phased.vcf.gz``. Global ancestry requires a posterior probability > 0.8.
-
 This module infers local ancestry across the genome using phased genotype files and a reference panel, such as ``hg38_phased.vcf.gz``. **rfmix** uses a discriminative machine learning approach to assign ancestral origins to specific chromosomal segments.
 
 
@@ -232,4 +230,12 @@ Module 7: rfmix Execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 .. code-block:: console
 
-   $ rfmix -f study.phased.vcf.gz -r hg38_phased.vcf.gz -m super_pop.txt -g genetic_map.txt -o ancestry
+   # Execute rfmix for local ancestry inference
+   $ rfmix -f study.phased.vcf.gz \
+           -r reference_panel.phased.vcf.gz \
+           -m sample_map.txt \
+           -g genetic_map.txt \
+           -e 2 \
+           -n 5 \
+           --chromosome=chr${CHR} \
+           -o output_ancestry
