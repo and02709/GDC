@@ -145,6 +145,36 @@ Module 7: rfmix
 ~~~~~~~~~~~~~~~
 Infers ancestry using phased files and ``hg38_phased.vcf.gz``. Global ancestry requires a posterior probability > 0.8.
 
+This module infers local ancestry across the genome using phased genotype files and a reference panel, such as ``hg38_phased.vcf.gz``. **rfmix** uses a discriminative machine learning approach to assign ancestral origins to specific chromosomal segments.
+
+
+For high-confidence ancestry calls, the pipeline enforces a strict threshold on the posterior probabilities assigned to each segment. Global ancestry estimates are only calculated for individuals where the posterior probability exceeds 0.8.
+
+The posterior probability :math:`P(A | G)` represents the likelihood that a genomic segment belongs to ancestry :math:`A` given the observed genotypes :math:`G`:
+
+.. math::
+
+   P(A | G) = \frac{P(G | A) P(A)}{P(G)}
+
+
+
+.. list-table:: rfmix Configuration and Requirements
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Parameter/Resource
+     - Requirement/Description
+   * - **Input Files**
+     - Must be phased VCF files from **shapeit4.2** (Module 6).
+   * - **Reference Panel**
+     - ``hg38_phased.vcf.gz``: Phased reference genotypes for known populations.
+   * - **Genetic Map**
+     - Requires a genetic map (recombination rates) consistent with the genome build.
+   * - **Confidence Threshold**
+     - Posterior probability :math:`> 0.8` for global ancestry inclusion.
+
+
+
 
 Technical Implementation
 ------------------------
