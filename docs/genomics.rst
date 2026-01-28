@@ -2,7 +2,6 @@ Genomics
 ========
 
 This section outlines the standard procedures for the genomic data processing pipeline.
-Checking to See if it works
 
 .. contents:: Table of Contents
    :depth: 2
@@ -13,36 +12,19 @@ Standard Procedure
 
 Module 1: Crossmap (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-CrossMap converts genome coordinates and annotation files between different reference assemblies. It supports a wide array of used file formats, including BAM, CRAM, SAM, VCF, Wiggle, BigWig, BED, GFF, and GTF. For the purposes of our pipeline we will make use of PLINK Binary format and convert the genome build to GRCh38 (default: GRCh37 to GRCh38). 
-
-* **Flag:** ``--use_crossmap`` (Default: ``1``).
-* **Override:** Set to ``0`` if the build is already GRCh38.
-
-Module 2: GenotypeHarmonizer (optional)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GenotypeHarmonizer integrates genetic data by resolving inconsistencies in genomic strand and file format.  It will align study datasets to a specified reference genome and uses linkage disequalibrium (LD) to solve unknown or ambiguous strand issues and SNPs.  We use it in our pipeline to align sample data to the GRCh38 reference genome using the reference file ``ALL.hgdp1kg.filtered.SNV_INDEL.38.phased.shapeit5.vcf``.
-
-* **Flag:** ``--use_genome_harmonizer`` (Default: ``1``).
-* **Override:** Set to ``0`` if the build is already harmonized.
-
-Module 3: Initial QC
-~~~~~~~~~~~~~~~~~~~~
-Performs Quality Control prior to relatedness checks.  
-
-* Exclude SNPs and individuals with >10% missingness (**Plink**).
-* Exclude SNPs and individuals with >2% missingness (**Plink**).
+...
 
 Module 4: Relatedness
 ~~~~~~~~~~~~~~~~~~~~~
-
 This module uses **KING** to separate related and unrelated study samples. The module also performs **PC-AiR** and **PC-Relate** for kinship estimation.
 
-**KING** is a toolset that makes use of SNP data to identify how closely two individuals are related based on their DNA. This inference is based on the **kinship coefficient** (:math:`\phi`).  The fundamental equation KING uses to estimate the kinship coefficient :math:`\phi` between individuals :math:`i` and :math:`j` is based on the counts of **Heterozygote-Heterozygote (Het-Het)** and **Heterozygote-Homozygote (Het-Hom)** mismatches:
+**KING** is a toolset that makes use of SNP data to identify how closely two individuals are related based on their DNA. This inference is based on the **kinship coefficient** (:math:`\phi`).
+
+The fundamental equation KING uses to estimate the kinship coefficient :math:`\phi` between individuals :math:`i` and :math:`j` is based on the counts of **Heterozygote-Heterozygote (Het-Het)** and **Heterozygote-Homozygote (Het-Hom)** mismatches:
 
 .. math::
 
    \phi_{ij} = \frac{N_{Aa,Aa} - 2N_{AA,aa}}{N_{Aa,i} + N_{Aa,j}}
-
 
 
 Module 5: Standard QC
@@ -60,6 +42,7 @@ Phasing performed via **shapeit4.2** with reference map ``chr${CHR}.b38.gmap.gz`
 Module 7: rfmix
 ~~~~~~~~~~~~~~~
 Infers ancestry using phased files and ``hg38_phased.vcf.gz``. Global ancestry requires a posterior probability > 0.8.
+
 
 Technical Implementation
 ------------------------
