@@ -103,6 +103,7 @@ Module 5: Standard QC
 ~~~~~~~~~~~~~~~~~~~~~
 Standard GWAS quality control measures on unrelated individuals.
 
+* Exclude SNPs and individuals with >2% missingness (**Plink**).
 * **MAF:** Exclude SNPs with Minor Allele Frequency < 0.01.
 * **HWE:** Exclude SNPs with p-values < 1e-6 (controls) or < 1e-10 (cases).
 * **Sex Check:** F-values < 0.2 assigned as female, > 0.8 as male.
