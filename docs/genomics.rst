@@ -19,7 +19,7 @@ CrossMap converts genome coordinates and annotation files between different refe
 
 Module 2: GenotypeHarmonizer (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-GenotypeHarmonizer integrates genetic data by resolving inconsistencies in genomic strand and file format. It will align study datasets to a specified reference genome and uses linkage disequilibrium (LD) to solve unknown or ambiguous strand issues and SNPs. We use it in our pipeline to align sample data to the GRCh38 reference genome using the reference file ``ALL.hgdp1kg.filtered.SNV_INDEL.38.phased.shapeit5.vcf``.
+GenotypeHarmonizer integrates genetic data by resolving inconsistencies in genomic strand and file format. It will align study datasets to a specified reference genome and uses linkage disequilibrium (LD) to solve unknown or ambiguous strand issues and SNPs. We use it in our pipeline to align sample data to the GRCh38 reference genome.
 
 * **Flag:** ``--use_genome_harmonizer`` (Default: ``1``).
 * **Override:** Set to ``0`` if the build is already harmonized.
@@ -44,7 +44,6 @@ The fundamental equation KING uses to estimate the kinship coefficient :math:`\p
    \phi_{ij} = \frac{N_{Aa,Aa} - 2N_{AA,aa}}{N_{Aa,i} + N_{Aa,j}}
 
 
-
 Based on the calculated :math:`\phi`, relationships are categorized as follows:
 
 .. list-table:: Relationship Inference Criteria
@@ -57,7 +56,7 @@ Based on the calculated :math:`\phi`, relationships are categorized as follows:
    * - **Duplicate/Twin**
      - :math:`> 0.354`
      - Identical twins, same person sampled
-   * - - **1st-Degree**
+   * - **1st-Degree**
      - :math:`[0.177, 0.354]`
      - Parent-Offspring, Full Siblings
    * - **2nd-Degree**
@@ -66,7 +65,6 @@ Based on the calculated :math:`\phi`, relationships are categorized as follows:
    * - **Unrelated**
      - :math:`< 0.0442`
      - No close detectable relation
-
 
 
 Module 5: Standard QC
@@ -94,6 +92,14 @@ Module 1: Crossmap
 .. code-block:: console
 
    $ python CrossMap.py GRCh37_to_GRCh38.chain.gz prep.bed study_lifted.bed
+
+Module 2: GenotypeHarmonizer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: console
+
+   $ java -jar GenotypeHarmonizer.jar --input study_data --input_type PLINK_BED \
+     --ref ALL.hgdp1kg.filtered.SNV_INDEL.38.phased.shapeit5.vcf --ref_type VCF \
+     --output harmonized_data --output_type PLINK_BED
 
 Module 3: Initial QC
 ~~~~~~~~~~~~~~~~~~~~
