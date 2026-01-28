@@ -43,19 +43,31 @@ The fundamental equation KING uses to estimate the kinship coefficient :math:`\p
 
    \phi_{ij} = \frac{N_{Aa,Aa} - 2N_{AA,aa}}{N_{Aa,i} + N_{Aa,j}}
 
+
+
 Based on the calculated :math:`\phi`, relationships are categorized as follows:
 
-+---------------------+-------------------------------+------------------------------------------+
-| Relationship Degree | Kinship Coefficient (:math:`\phi`) | Examples                                 |
-+=====================+===============================+==========================================+
-| **Duplicate/Twin** | :math:`> 0.354`               | Identical twins, same person sampled     |
-+---------------------+-------------------------------+------------------------------------------+
-| **1st-Degree** | :math:`[0.177, 0.354]`        | Parent-Offspring, Full Siblings          |
-+---------------------+-------------------------------+------------------------------------------+
-| **2nd-Degree** | :math:`[0.0884, 0.177]`       | Grandparent-Grandchild, Half-siblings    |
-+---------------------+-------------------------------+------------------------------------------+
-| **Unrelated** | :math:`< 0.0442`              | No close detectable relation             |
-+---------------------+-------------------------------+------------------------------------------+
+.. list-table:: Relationship Inference Criteria
+   :widths: 30 30 40
+   :header-rows: 1
+
+   * - Relationship Degree
+     - Kinship Coefficient (:math:`\phi`)
+     - Examples
+   * - **Duplicate/Twin**
+     - :math:`> 0.354`
+     - Identical twins, same person sampled
+   * - - **1st-Degree**
+     - :math:`[0.177, 0.354]`
+     - Parent-Offspring, Full Siblings
+   * - **2nd-Degree**
+     - :math:`[0.0884, 0.177]`
+     - Grandparent-Grandchild, Half-siblings
+   * - **Unrelated**
+     - :math:`< 0.0442`
+     - No close detectable relation
+
+
 
 Module 5: Standard QC
 ~~~~~~~~~~~~~~~~~~~~~
