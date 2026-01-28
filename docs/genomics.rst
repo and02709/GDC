@@ -112,6 +112,35 @@ Module 6: Phasing
 ~~~~~~~~~~~~~~~~~
 Phasing performed via **shapeit4.2** with reference map ``chr${CHR}.b38.gmap.gz``.
 
+Phasing is the process of estimating haplotypes from observed genotypes, determining which alleles were inherited together from a single parent. In this pipeline, phasing is performed via **shapeit4.2**.
+
+The accuracy of the haplotype estimation relies on a high-resolution genetic map that provides the recombination rates across the genome. We use the reference map: ``chr${CHR}.b38.gmap.gz``.
+
+A common metric for evaluating phasing quality is the **Switch Error Rate**, which measures the frequency of incorrect "switches" between the maternal and paternal haplotypes in the estimated sequence:
+
+.. math::
+
+   \text{SER} = \frac{\text{Number of Switch Errors}}{\text{Total Number of Opportunities for Switch Errors}}
+
+
+
+.. list-table:: Phasing Parameters and Resources
+   :widths: 30 70
+   :header-rows: 1
+
+   * - Parameter/Resource
+     - Description
+   * - **Software**
+     - **shapeit4.2**: A fast and accurate method for estimation of haplotypes.
+   * - **Reference Map**
+     - ``chr${CHR}.b38.gmap.gz``: Genetic map used to model recombination.
+   * - **Input Format**
+     - VCF/BCF: Requires high-quality, QC-filtered genotypes from Module 5.
+   * - **Output Format**
+     - Phased VCF: Necessary for local ancestry inference in Module 7.
+
+
+
 Module 7: rfmix
 ~~~~~~~~~~~~~~~
 Infers ancestry using phased files and ``hg38_phased.vcf.gz``. Global ancestry requires a posterior probability > 0.8.
@@ -157,6 +186,17 @@ Module 5: Standard QC (Sex Check)
 
    $ plink --bfile QC4 --check-sex
    $ grep 'PROBLEM' plink.sexcheck | awk '{print $1, $2}' > sex_discrepancy.txt
+
+Module 6: Phasing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.. code-block:: console
+
+   # Execute shapeit4 for a specific chromosome
+   $ shapeit4 --input study_filtered.vcf.gz \
+              --map chr${CHR}.b38.gmap.gz \
+              --region ${CHR} \
+              --output study_phased_chr${CHR}.vcf.gz \
+              --thread 8
 
 Module 7: rfmix Execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~
