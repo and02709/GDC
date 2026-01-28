@@ -36,6 +36,8 @@ Module 4: Relatedness
 ~~~~~~~~~~~~~~~~~~~~~
 Uses **KING** to separate related and unrelated study samples. This module also performs **PC-AiR** and **PC-Relate** for kinship estimation.
 
+**KING** is a toolset that makes use of SNP data to identify how closely two individuals are rleated based on their DNA.  This inference is based on kinship coefficient 
+
 Module 5: Standard QC
 ~~~~~~~~~~~~~~~~~~~~~
 Standard GWAS quality control measures on unrelated individuals.
