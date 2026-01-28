@@ -43,9 +43,6 @@ The fundamental equation KING uses to estimate the kinship coefficient :math:`\p
 
    \phi_{ij} = \frac{N_{Aa,Aa} - 2N_{AA,aa}}{N_{Aa,i} + N_{Aa,j}}
 
-Relationship Inference Criteria
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 Based on the calculated :math:`\phi`, relationships are categorized as follows:
 
 +---------------------+-------------------------------+------------------------------------------+
