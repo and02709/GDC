@@ -49,16 +49,6 @@ Before running the pipeline, ensure your ``config/config.yaml`` file is correctl
 
 You can find the template and additional parameters in the `official configuration file <https://github.com/UMN-GDC/GDCGenomicsQC/blob/ldPruning4PCA/config/config.yaml>`_.
 
-Execution
-~~~~~~~~~
-
-After cloning the repository and setting up your configuration, the pipeline is initiated using the ``Run.sh`` script located within the ``GDCGenomicsQC`` directory.
-
-**Basic Command:**
-
-.. code-block:: console
-
-    $ sh ./GDCGenomicsQC/Run.sh
 
 Command-Line Flags
 ------------------
