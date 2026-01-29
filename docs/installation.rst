@@ -31,17 +31,9 @@ If you wish to contribute or use the latest developmental features, install dire
 
    .. code-block:: console
 
-       $ source /home/gdc/public/envs/load_miniconda3.sh
-       $ module load plink
-        $ module load perl
-
-3. **Install in editable mode:**
-
-   Installing in editable mode allows changes to the source code to take effect immediately without re-installation.
-
-   .. code-block:: console
-
-       $ pip install -e .
+    $ source /home/gdc/public/envs/load_miniconda3.sh
+    $ module load plink
+    $ module load perl
 
 
 External Dependencies
