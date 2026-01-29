@@ -31,8 +31,9 @@ If you wish to contribute or use the latest developmental features, install dire
 
    .. code-block:: console
 
-       $ python -m venv venv
-       $ source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+       $ source /home/gdc/public/envs/load_miniconda3.sh
+       $ module load plink
+        $ module load perl
 
 3. **Install in editable mode:**
 
