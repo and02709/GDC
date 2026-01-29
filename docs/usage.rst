@@ -2,72 +2,106 @@
 Usage
 =====
 
-Overview of Workflow
---------------------
+Genome-wide Data Cleaner (GDC) is designed to automate the quality control (QC) and cleaning of genomic data. It primarily acts as a streamlined interface for PLINK 1.9 and PLINK 2.0.
 
-GDC is designed to streamline the cleaning of genomic datasets. A typical workflow involves:
+To use GDC in a Python project:
 
-1.  **Data Ingestion**: Loading PLINK binary files (.bed, .bim, .fam).
-2.  **Quality Control (QC)**: Filtering based on call rates, MAF, and HWE.
-3.  **Population Stratification**: Handling ancestry and relatedness.
-4.  **Export**: Generating cleaned datasets for downstream analysis.
+.. code-block:: python
 
+    import GDC
 
+Data Requirements
+-----------------
 
-Basic Command Line Usage
-------------------------
+Before running GDC, ensure your genomic data is in PLINK binary format. GDC expects the following files to be present in your input directory:
 
-If you are using GDC as a standalone tool, you can initiate a standard cleaning pipeline directly from the terminal. 
+* ``.bed`` (Binary pedigree file)
+* ``.bim`` (Extended MAP file)
+* ``.fam`` (Family file)
+
+Command Line Interface (CLI)
+----------------------------
+
+GDC is most commonly used via the command line. This allows for easy integration into SLURM scripts or bash pipelines.
+
+Basic Syntax
+~~~~~~~~~~~~
 
 .. code-block:: console
 
-    $ GDC --input my_data --output cleaned_data --maf 0.05 --geno 0.02
+    $ python -m GDC --bfile [input_prefix] --out [output_prefix] [options]
 
-Python API Example
-------------------
+Arguments and Flags
+~~~~~~~~~~~~~~~~~~~
 
-For more complex research workflows, such as integration into a larger Python script or Jupyter Notebook, use the API:
+The following parameters allow you to customize the cleaning threshold:
 
-.. code-block:: python
+* **Input/Output**
+    * ``--bfile``: Prefix of the input PLINK binary files.
+    * ``--out``: Prefix for the generated cleaned files.
 
-    from GDC import Cleaner
+* **Quality Control Thresholds**
+    * ``--mind``: Filter individuals with missing phenotypes (default: 0.1).
+    * ``--geno``: Filter variants with missing call rates (default: 0.1).
+    * ``--maf``: Filter variants with Minor Allele Frequency below a threshold (default: 0.01).
+    * ``--hwe``: Filter variants failing Hardy-Weinberg Equilibrium test (default: 1e-6).
 
-    # Initialize the cleaner with your PLINK prefix
-    cleaner = Cleaner(prefix="study_data")
+* **Advanced Processing**
+    * ``--indep-pairwise``: Perform linkage disequilibrium (LD) pruning (e.g., ``50 5 0.2``).
+    * ``--rem-multiallelic``: Remove multiallelic variants to ensure dataset consistency.
 
-    # Run a standard QC battery
-    cleaner.filter_missingness(threshold=0.02)
-    cleaner.filter_maf(min_freq=0.01)
-    
-    # Run a sex check (requires PLINK in PATH)
-    cleaner.check_sex()
+Usage Examples
+--------------
 
-    # Execute and save
-    cleaner.run_pipeline(out_prefix="study_data_cleaned")
-
-Advanced Options
-----------------
-
-Handling Relatedness
+Standard QC Pipeline
 ~~~~~~~~~~~~~~~~~~~~
 
-GDC can interface with tools like KING or PLINK's identity-by-descent (IBD) functions to handle related individuals:
+To perform a standard clean with a 5% missingness threshold and 1% MAF:
 
-.. code-block:: python
+.. code-block:: console
 
-    cleaner.remove_related(cutoff=0.125)
+    $ python -m GDC --bfile raw_data --out clean_data --mind 0.05 --geno 0.05 --maf 0.01
 
-Working on HPC (SLURM)
-~~~~~~~~~~~~~~~~~~~~~~
+LD Pruning and Multiallelic Removal
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-When using GDC on a cluster, ensure your script requests sufficient memory for PLINK operations. A typical SLURM header for a GDC task might look like this:
+For datasets intended for PCA or relatedness testing, you may want to prune for LD and clean the variant types:
+
+.. code-block:: console
+
+    $ python -m GDC --bfile raw_data --out pruned_data --indep-pairwise 50 5 0.2 --rem-multiallelic
+
+Integration with SLURM
+----------------------
+
+For large-scale university research projects, GDC can be included in a batch script. 
 
 .. code-block:: bash
 
     #!/bin/bash
-    #SBATCH --job-name=GDC_Clean
-    #SBATCH --mem=16gb
-    #SBATCH --cpus-per-task=4
-    #SBATCH --time=02:00:00
+    #SBATCH --job-name=GDC_QC
+    #SBATCH --output=GDC_QC_%j.log
+    #SBATCH --mem=8gb
+    #SBATCH --cpus-per-task=1
 
-    python my_gdc_script.py
+    # Load necessary modules (if applicable)
+    # module load plink
+
+    python -m GDC --bfile my_dataset --out my_dataset_cleaned --maf 0.05 --rem-multiallelic
+
+Python API Usage
+----------------
+
+You can also call the GDC cleaning logic directly within Python scripts for more complex bioinformatics workflows:
+
+.. code-block:: python
+
+    from GDC import gdc_clean
+
+    gdc_clean(
+        bfile="my_study_data",
+        out="cleaned_output",
+        maf=0.01,
+        geno=0.05,
+        rem_multiallelic=True
+    )
