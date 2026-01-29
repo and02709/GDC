@@ -4,7 +4,6 @@
 Installation
 ============
 
-Genome-wide Data Cleaner (GDC) requires a Python environment and external bioinformatics binaries to function correctly.
 
 Stable release
 --------------
