@@ -2,12 +2,6 @@
 Usage
 =====
 
-To use Genome-wide Data Cleaner in a project:
-
-.. code-block:: python
-
-    import GDC
-
 Overview of Workflow
 --------------------
 
