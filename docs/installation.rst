@@ -4,63 +4,85 @@
 Installation
 ============
 
+Genome-wide Data Cleaner (GDC) requires a Python environment and external bioinformatics binaries to function correctly.
 
 Stable release
 --------------
 
-To install Genome-wide Data Cleaner, run this command in your terminal:
+To install GDC, run this command in your terminal:
 
 .. code-block:: console
 
     $ pip install GDC
 
-This is the preferred method to install Genome-wide Data Cleaner, as it will always install the most recent stable release.
+This is the preferred method, as it installs the most recent stable release and handles all Python library dependencies (Pandas, Numpy, Scipy).
 
-If you don't have `pip`_ installed, this `Python installation guide`_ can guide
-you through the process.
+From Source (Development)
+-------------------------
 
-.. _pip: https://pip.pypa.io
-.. _Python installation guide: http://docs.python-guide.org/en/latest/starting/installation/
+If you wish to contribute or use the latest developmental features, install directly from the source code.
 
+1. **Clone the repository:**
 
-From sources
-------------
+   .. code-block:: console
 
-The sources for Genome-wide Data Cleaner can be downloaded from the `Github repo`_.
+       $ git clone https://github.com/and02709/GDC.git
+       $ cd GDC
 
-You can either clone the public repository:
+2. **Set up a Virtual Environment (Recommended):**
 
-.. code-block:: console
+   .. code-block:: console
 
-    $ git clone git://github.com/and02709/GDC
+       $ python -m venv venv
+       $ source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-Or download the `tarball`_:
+3. **Install in editable mode:**
 
-.. code-block:: console
+   Installing in editable mode allows changes to the source code to take effect immediately without re-installation.
 
-    $ curl -OJL https://github.com/and02709/GDC/tarball/master
+   .. code-block:: console
 
-Once you have a copy of the source, you can install it with:
-
-.. code-block:: console
-
-    $ python setup.py install
+       $ pip install -e .
 
 
 External Dependencies
 ---------------------
 
-GDC functions as a wrapper and pipeline for several genomic toolsets. For full functionality, ensure the following are installed and accessible in your system PATH:
+GDC acts as a high-level interface for genetic data processing. **You must have the following binaries installed and available in your system PATH.**
 
-1. **PLINK 1.9 & PLINK 2.0**: 
-   Required for most data cleaning and conversion tasks. 
-   Download from: `cog-genomics.org <https://www.cog-genomics.org/plink/>`_
+PLINK (1.9 and 2.0)
+~~~~~~~~~~~~~~~~~~~
 
-2. **Python Dependencies**:
-   The following will be installed automatically if using pip, but are required for manual setups:
-    * ``pandas``
-    * ``numpy``
-    * ``scipy``
+GDC relies heavily on PLINK for rapid data cleaning.
 
-.. _Github repo: https://github.com/and02709/GDC
-.. _tarball: https://github.com/and02709/GDC/tarball/master
+* **Download:** Get the latest stable binaries from `cog-genomics.org <https://www.cog-genomics.org/plink/>`_.
+* **Setup:** Ensure the executables are named ``plink`` (for 1.9) and ``plink2`` (for 2.0).
+* **Verify:** Run the following in your terminal to ensure they are accessible:
+
+  .. code-block:: console
+
+      $ plink --version
+      $ plink2 --version
+
+.. note::
+   If you are working on a High-Performance Computing (HPC) cluster using SLURM, you may need to load these via modules (e.g., ``module load plink/1.9``).
+
+
+Configuration & Troubleshooting
+-------------------------------
+
+If GDC cannot find your PLINK binaries, you can verify your system PATH:
+
+.. code-block:: console
+
+    # Linux/macOS
+    $ echo $PATH
+
+    # Windows (PowerShell)
+    $ $env:Path
+
+Ensure the directory containing your binaries is listed. If you encounter permission errors when running from source, ensure the scripts have execution privileges:
+
+.. code-block:: console
+
+    $ chmod +x GDC/*.py
