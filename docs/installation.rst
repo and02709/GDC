@@ -9,13 +9,12 @@ Genome-wide Data Cleaner (GDC) requires a Python environment and external bioinf
 Stable release
 --------------
 
-To install GDC, run this command in your terminal:
+When the software is complete, run this command in your terminal:
 
 .. code-block:: console
 
     $ pip install GDC
 
-This is the preferred method, as it installs the most recent stable release and handles all Python library dependencies (Pandas, Numpy, Scipy).
 
 From Source (Development)
 -------------------------
