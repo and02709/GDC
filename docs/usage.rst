@@ -2,106 +2,55 @@
 Usage
 =====
 
-Genome-wide Data Cleaner (GDC) is designed to automate the quality control (QC) and cleaning of genomic data. It primarily acts as a streamlined interface for PLINK 1.9 and PLINK 2.0.
+The **Genome-wide Data Cleaner (GDC)** is a comprehensive pipeline designed for cleaning genotype data and performing advanced genomic analyses. It integrates standard quality control procedures with optional advanced features like genome remapping and ancestry estimation.
 
-To use GDC in a Python project:
-
-.. code-block:: python
-
-    import GDC
-
-Data Requirements
+Workflow Overview
 -----------------
 
-Before running GDC, ensure your genomic data is in PLINK binary format. GDC expects the following files to be present in your input directory:
+The pipeline processes input data through a structured sequence of stages:
 
-* ``.bed`` (Binary pedigree file)
-* ``.bim`` (Extended MAP file)
-* ``.fam`` (Family file)
 
-Command Line Interface (CLI)
-----------------------------
 
-GDC is most commonly used via the command line. This allows for easy integration into SLURM scripts or bash pipelines.
+1.  **Reference Update (Optional)**: Update genome builds from GRCh37 to GRCh38 using **CrossMap**.
+2.  **Alignment (Optional)**: Ensure genotypes are aligned using **Genotype Harmonizer**.
+3.  **Core QC Steps**: Execute standard quality control filters using **PLINK**, **Primus**, and **R**.
+4.  **Ancestry & PCA**: Perform ancestry prediction and PCA analysis using **Fraposa**.
+5.  **Per-Ancestry QC**: Refine results with specific QC filters based on predicted ancestry.
+6.  **Reporting (Optional)**: Generate a final PDF report of all QC steps and changes via **Quarto**.
 
-Basic Syntax
-~~~~~~~~~~~~
+Running the Pipeline
+--------------------
 
-.. code-block:: console
+After cloning the repository, the pipeline is initiated using the ``Run.sh`` script located within the ``GDCGenomicsQC`` directory.
 
-    $ python -m GDC --bfile [input_prefix] --out [output_prefix] [options]
-
-Arguments and Flags
-~~~~~~~~~~~~~~~~~~~
-
-The following parameters allow you to customize the cleaning threshold:
-
-* **Input/Output**
-    * ``--bfile``: Prefix of the input PLINK binary files.
-    * ``--out``: Prefix for the generated cleaned files.
-
-* **Quality Control Thresholds**
-    * ``--mind``: Filter individuals with missing phenotypes (default: 0.1).
-    * ``--geno``: Filter variants with missing call rates (default: 0.1).
-    * ``--maf``: Filter variants with Minor Allele Frequency below a threshold (default: 0.01).
-    * ``--hwe``: Filter variants failing Hardy-Weinberg Equilibrium test (default: 1e-6).
-
-* **Advanced Processing**
-    * ``--indep-pairwise``: Perform linkage disequilibrium (LD) pruning (e.g., ``50 5 0.2``).
-    * ``--rem-multiallelic``: Remove multiallelic variants to ensure dataset consistency.
-
-Usage Examples
---------------
-
-Standard QC Pipeline
-~~~~~~~~~~~~~~~~~~~~
-
-To perform a standard clean with a 5% missingness threshold and 1% MAF:
+**Basic Command:**
 
 .. code-block:: console
 
-    $ python -m GDC --bfile raw_data --out clean_data --mind 0.05 --geno 0.05 --maf 0.01
+    $ sh ./GDCGenomicsQC/Run.sh
 
-LD Pruning and Multiallelic Removal
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Command-Line Flags
+------------------
 
-For datasets intended for PCA or relatedness testing, you may want to prune for LD and clean the variant types:
+You can append the following flags to the run command to customize the execution:
+
+* **--set_working_directory**: Provide the path where output files should be stored.
+* **--input_directory**: Provide the path to the directory containing your ``.bim``, ``.bed``, and ``.fam`` data.
+* **--input_file_name**: Provide the common prefix shared by your genotype files.
+* **--path_to_github_repo**: Provide the local path to the GDCGenomicsQC pipeline repository.
+* **--user_x500**: Provide your x500 email (e.g., ``samp213@umn.edu``) to receive updates regarding sbatch submissions.
+* **--use_crossmap**: Enter '1' to update the reference genome build to GRCh38.
+* **--use_genome_harmonizer**: Enter '1' to update strand alignment.
+* **--use_king**: Enter '1' to utilize KING for relatedness estimation.
+* **--use_rfmix**: Enter '1' to utilize RFMix for ancestry estimation.
+* **--make_report**: Enter '1' to generate an automated report of the QC steps and changes.
+* **--custom_qc**: Enter '1' to apply custom settings for marker and sample filtering.
+
+High-Performance Computing (SLURM)
+----------------------------------
+
+For large datasets, the script can be executed via ``sbatch`` to leverage cluster resources:
 
 .. code-block:: console
 
-    $ python -m GDC --bfile raw_data --out pruned_data --indep-pairwise 50 5 0.2 --rem-multiallelic
-
-Integration with SLURM
-----------------------
-
-For large-scale university research projects, GDC can be included in a batch script. 
-
-.. code-block:: bash
-
-    #!/bin/bash
-    #SBATCH --job-name=GDC_QC
-    #SBATCH --output=GDC_QC_%j.log
-    #SBATCH --mem=8gb
-    #SBATCH --cpus-per-task=1
-
-    # Load necessary modules (if applicable)
-    # module load plink
-
-    python -m GDC --bfile my_dataset --out my_dataset_cleaned --maf 0.05 --rem-multiallelic
-
-Python API Usage
-----------------
-
-You can also call the GDC cleaning logic directly within Python scripts for more complex bioinformatics workflows:
-
-.. code-block:: python
-
-    from GDC import gdc_clean
-
-    gdc_clean(
-        bfile="my_study_data",
-        out="cleaned_output",
-        maf=0.01,
-        geno=0.05,
-        rem_multiallelic=True
-    )
+    $ sbatch ./GDCGenomicsQC/Run.sh --set_working_directory $PWD --input_directory ${PWD}/input_data --input_file_name study_stem
