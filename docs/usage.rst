@@ -26,7 +26,33 @@ The pipeline processes input data through a structured sequence of stages:
 Running the Pipeline
 --------------------
 
-After cloning the repository, the pipeline is initiated using the ``Run.sh`` script located within the ``GDCGenomicsQC`` directory.
+The pipeline is managed through a configuration file and executed via the ``Run.sh`` script.
+
+Configuration File
+~~~~~~~~~~~~~~~~~~
+
+Before running the pipeline, ensure your ``config/config.yaml`` file is correctly configured with project-wide paths and tool-specific parameters. A typical configuration looks like this:
+
+.. code-block:: yaml
+
+    # Project-wide paths
+    INPUT_FILE: "/projects/standard/gdc/public/Ref/toyData/1kgSynthetic"
+    OUT_DIR: "/scratch.global/coffm049/toyPipeline"
+    REF: "/projects/standard/gdc/public/Ref"
+
+    # Tool-specific parameters
+    relatedness:
+        method: "0"
+    SEX_CHECK: false
+    RFMIX: true
+    thin: true
+
+You can find the template and additional parameters in the `official configuration file <https://github.com/UMN-GDC/GDCGenomicsQC/blob/ldPruning4PCA/config/config.yaml>`_.
+
+Execution
+~~~~~~~~~
+
+After cloning the repository and setting up your configuration, the pipeline is initiated using the ``Run.sh`` script located within the ``GDCGenomicsQC`` directory.
 
 **Basic Command:**
 
