@@ -9,7 +9,12 @@ Workflow Overview
 
 The pipeline processes input data through a structured sequence of stages:
 
+.. figure:: images/workflow_diagram.png
+   :alt: GDC Genomics QC Workflow Diagram
+   :align: center
+   :width: 600px
 
+   Overview of the GDC Genomics QC Pipeline stages.
 
 1.  **Reference Update (Optional)**: Update genome builds from GRCh37 to GRCh38 using **CrossMap**.
 2.  **Alignment (Optional)**: Ensure genotypes are aligned using **Genotype Harmonizer**.
