@@ -9,7 +9,7 @@ Workflow Overview
 
 The pipeline processes input data through a structured sequence of stages:
 
-.. figure:: images/workflow_diagram.png
+.. figure:: images/workflow_diagram.jpg
    :alt: GDC Genomics QC Workflow Diagram
    :align: center
    :width: 600px
